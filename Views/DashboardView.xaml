@@ -1,0 +1,133 @@
+<UserControl x:Class="MASA.RetailPOS.App.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1000"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="14"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             FontFamily="{DynamicResource MaterialDesignFont}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,20">
+                <materialDesign:PackIcon Kind="ViewDashboard" Width="32" Height="32" Foreground="#8C52FF" VerticalAlignment="Center"/>
+                <TextBlock Text="لوحة القيادة (Dashboard)" FontSize="24" FontWeight="Bold" Margin="15,0,0,0" VerticalAlignment="Center" Foreground="White"/>
+            </StackPanel>
+
+            <!-- Stats Cards -->
+            <Grid Grid.Row="1" Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Sales Card -->
+                <Border Grid.Column="0" Background="#1E1E2F" CornerRadius="10" Padding="20" Margin="0,0,10,0">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <materialDesign:PackIcon Kind="CashMultiple" Width="24" Height="24" Foreground="#4CAF50"/>
+                            <TextBlock Text="إجمالي المبيعات" Margin="10,0,0,0" Foreground="#A0A0B0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding TotalSales, StringFormat={}{0:N2}}" FontSize="28" FontWeight="Bold" Foreground="White"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Invoices Card -->
+                <Border Grid.Column="1" Background="#1E1E2F" CornerRadius="10" Padding="20" Margin="10,0,10,0">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <materialDesign:PackIcon Kind="ReceiptTextOutline" Width="24" Height="24" Foreground="#2196F3"/>
+                            <TextBlock Text="عدد الفواتير" Margin="10,0,0,0" Foreground="#A0A0B0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding InvoiceCount}" FontSize="28" FontWeight="Bold" Foreground="White"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Profits Card -->
+                <Border Grid.Column="2" Background="#1E1E2F" CornerRadius="10" Padding="20" Margin="10,0,10,0">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <materialDesign:PackIcon Kind="Finance" Width="24" Height="24" Foreground="#FFC107"/>
+                            <TextBlock Text="الأرباح" Margin="10,0,0,0" Foreground="#A0A0B0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding TotalProfits, StringFormat={}{0:N2}}" FontSize="28" FontWeight="Bold" Foreground="White"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Alerts Card -->
+                <Border Grid.Column="3" Background="#1E1E2F" CornerRadius="10" Padding="20" Margin="10,0,0,0">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <materialDesign:PackIcon Kind="AlertOutline" Width="24" Height="24" Foreground="#FF5252"/>
+                            <TextBlock Text="منتجات ناقصة" Margin="10,0,0,0" Foreground="#A0A0B0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding LowStockItems}" FontSize="28" FontWeight="Bold" Foreground="#FF5252"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Placeholder for Charts and Tables -->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Border Grid.Column="0" Background="#1E1E2F" CornerRadius="10" Padding="20" Margin="0,0,10,0" MinHeight="300">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="مبيعات آخر 7 أيام" FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,0,0,15"/>
+                        <lvc:CartesianChart Grid.Row="1" Background="Transparent" Series="{Binding SalesSeries}" XAxes="{Binding XAxes}" YAxes="{Binding YAxes}" TooltipTextPaint="{x:Null}" TooltipBackgroundPaint="{x:Null}"/>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="1" Background="#1E1E2F" CornerRadius="10" Padding="20" Margin="10,0,0,0" MinHeight="300">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="أفضل 5 منتجات مبيعاً" FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,0,0,15"/>
+                        <ItemsControl Grid.Row="1" ItemsSource="{Binding TopProducts}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding Name}" Foreground="White" FontSize="16" VerticalAlignment="Center"/>
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                            <TextBlock Text="{Binding TotalSales, StringFormat={}{0:N2}}" Foreground="#8C52FF" FontSize="16" FontWeight="Bold" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                            <Border Background="#338C52FF" CornerRadius="5" Padding="5,2">
+                                                <TextBlock Text="{Binding QuantitySold, StringFormat='\{0\} قطعة'}" Foreground="#8C52FF" FontSize="14" FontWeight="Bold" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

@@ -1,0 +1,158 @@
+<Window x:Class="MASA.RetailPOS.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:viewmodels="clr-namespace:MASA.RetailPOS.App.ViewModels"
+        mc:Ignorable="d"
+        Title="MASA Retail POS Pro" Height="768" Width="1024"
+        WindowStartupLocation="CenterScreen"
+        Icon="logo1.ico"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="14"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        WindowState="Maximized">
+
+    <Grid FlowDirection="RightToLeft">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Width="250" Background="#1E1E2F" BorderThickness="1,0,0,0" BorderBrush="#2D2D42" Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Logo / App Name -->
+                <StackPanel Grid.Row="0" Margin="20" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <materialDesign:PackIcon Kind="StorefrontOutline" Width="32" Height="32" Foreground="#8C52FF" VerticalAlignment="Center"/>
+                    <TextBlock Text="MASA POS" FontSize="20" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White"/>
+                </StackPanel>
+
+                <!-- Navigation Menu -->
+                <StackPanel Grid.Row="1" Margin="10,20,10,0">
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                            Height="50" Margin="0,0,0,5" Padding="10,0"
+                            Foreground="White"
+                            Command="{Binding NavigateToDashboardCommand}"
+                            Visibility="{Binding CanAccessDashboard, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal" Width="180">
+                            <materialDesign:PackIcon Kind="ViewDashboard" Width="24" Height="24" VerticalAlignment="Center" />
+                            <TextBlock Text="لوحة القيادة" Margin="15,0,15,0" FontSize="16" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                            Height="50" Margin="0,0,0,5" Padding="10,0"
+                            Foreground="White"
+                            Command="{Binding NavigateToPosCommand}"
+                            Visibility="{Binding CanAccessPos, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal" Width="180">
+                            <materialDesign:PackIcon Kind="CashRegister" Width="24" Height="24" VerticalAlignment="Center" />
+                            <TextBlock Text="نقطة البيع" Margin="15,0,15,0" FontSize="16" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                            Height="50" Margin="0,0,0,5" Padding="10,0"
+                            Foreground="#A0A0B0"
+                            Command="{Binding NavigateToProductsCommand}"
+                            Visibility="{Binding CanAccessProducts, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal" Width="180">
+                            <materialDesign:PackIcon Kind="CubeOutline" Width="24" Height="24" VerticalAlignment="Center" />
+                            <TextBlock Text="المنتجات" Margin="15,0,15,0" FontSize="16" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                            Height="50" Margin="0,0,0,5" Padding="10,0"
+                            Foreground="#A0A0B0"
+                            Command="{Binding NavigateToInventoryCommand}"
+                            Visibility="{Binding CanAccessInventory, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal" Width="180">
+                            <materialDesign:PackIcon Kind="PackageVariantClosed" Width="24" Height="24" VerticalAlignment="Center" />
+                            <TextBlock Text="المخزون" Margin="15,0,15,0" FontSize="16" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                            Height="50" Margin="0,0,0,5" Padding="10,0"
+                            Foreground="#A0A0B0"
+                            Command="{Binding NavigateToCustomersCommand}">
+                        <StackPanel Orientation="Horizontal" Width="180">
+                            <materialDesign:PackIcon Kind="AccountGroup" Width="24" Height="24" VerticalAlignment="Center" />
+                            <TextBlock Text="العملاء (CRM)" Margin="15,0,15,0" FontSize="16" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                            Height="50" Margin="0,0,0,5" Padding="10,0"
+                            Foreground="#A0A0B0"
+                            Command="{Binding NavigateToSuppliersCommand}"
+                            Visibility="{Binding CanAccessSuppliers, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal" Width="180">
+                            <materialDesign:PackIcon Kind="TruckDeliveryOutline" Width="24" Height="24" VerticalAlignment="Center" />
+                            <TextBlock Text="الموردين" Margin="15,0,15,0" FontSize="16" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                            Height="50" Margin="0,0,0,5" Padding="10,0"
+                            Foreground="#A0A0B0"
+                            Command="{Binding NavigateToReportsCommand}"
+                            Visibility="{Binding CanAccessReports, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal" Width="180">
+                            <materialDesign:PackIcon Kind="ChartBoxOutline" Width="24" Height="24" VerticalAlignment="Center" />
+                            <TextBlock Text="التقارير" Margin="15,0,15,0" FontSize="16" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                            Height="50" Margin="0,0,0,5" Padding="10,0"
+                            Foreground="#A0A0B0"
+                            Command="{Binding NavigateToSettingsCommand}"
+                            Visibility="{Binding CanAccessSettings, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal" Width="180">
+                            <materialDesign:PackIcon Kind="CogOutline" Width="24" Height="24" VerticalAlignment="Center" />
+                            <TextBlock Text="الإعدادات" Margin="15,0,15,0" FontSize="16" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!-- User Info & Logout -->
+                <StackPanel Grid.Row="2" Margin="20">
+                    <TextBlock Text="{Binding CurrentUser.FullName}" Foreground="White" FontWeight="SemiBold"/>
+                    <TextBlock Text="{Binding CurrentUser.Role}" Foreground="#A0A0B0" FontSize="12" Margin="0,0,0,5"/>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="#FF5252" HorizontalAlignment="Left" Padding="0,5" Command="{Binding LogoutCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Logout" Width="16" Height="16"/>
+                            <TextBlock Text="تسجيل الخروج" Margin="5,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main Content Area -->
+        <Grid Grid.Column="1" Background="#151521">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Top Bar -->
+            <Border Grid.Row="0" Height="60" Background="#1E1E2F" BorderThickness="0,0,0,1" BorderBrush="#2D2D42" Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid Margin="20,0">
+                    <TextBlock Text="{Binding CurrentDate}" VerticalAlignment="Center" Foreground="#A0A0B0"/>
+                    <TextBlock Text="{Binding CurrentTime}" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="#A0A0B0"/>
+                </Grid>
+            </Border>
+
+            <!-- Content Presenter -->
+            <ContentControl Grid.Row="1" Content="{Binding CurrentView}" Margin="10" />
+        </Grid>
+    </Grid>
+</Window>
